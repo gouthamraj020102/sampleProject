@@ -19,12 +19,9 @@ public class StudentController {
     @GetMapping("/student/{id}")
     public ResponseEntity<Student> getStudent(@PathVariable("id") int id) {
         try {
-            Student student = this.studentService.getStudent(id);
-            if (student == null)
-                throw new IndexOutOfBoundsException();
-            return ResponseEntity.ok(student);
+            return ResponseEntity.ok(this.studentService.getStudent(id));
         } catch (IndexOutOfBoundsException ex) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
 

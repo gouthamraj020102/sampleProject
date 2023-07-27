@@ -13,7 +13,11 @@ public class StudentService {
     private StudentRepository studentRepository;
 
     public Student getStudent(int id) {
-        return this.studentRepository.getStudentById(id);
+        Student student = this.studentRepository.getStudentById(id);
+        if(student == null)
+            throw new IndexOutOfBoundsException();
+        else
+            return student;
     }
 
 }

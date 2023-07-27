@@ -13,9 +13,7 @@ public class StudentService {
     private StudentRepository studentRepository;
 
     public Student getStudent(int id) {
-        Student student = this.studentRepository.getStudentById(id);
-        System.out.println(student);
-        return student;
+        return this.studentRepository.getStudentById(id);
     }
 
 }

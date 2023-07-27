@@ -11,12 +11,7 @@ import com.sampleProject.springboot.Entities.Student;
 public class StudentRepository {
 
     public Student getStudentById(int id) {
-        Student student = listOfStudents().get(id - 1);
-        System.out.println(student);
-        if (student != null)
-            return student;
-        else
-            return null;
+        return listOfStudents().get(id - 1);
     }
 
     public List<Student> listOfStudents() {

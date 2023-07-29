@@ -14,6 +14,9 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ExtendWith(MockitoExtension.class)
 public class StudentControllerTest {
 
@@ -36,5 +39,22 @@ public class StudentControllerTest {
         doThrow(IndexOutOfBoundsException.class).when(studentService).getStudent(anyInt());
         assertEquals(HttpStatus.NOT_FOUND, studentController.getStudent(10).getStatusCode());
         assertNull(studentController.getStudent(10).getBody());
+    }
+
+    @Test
+    public void getAllStudents_happyPath() {
+        List<Student> listOfStudents = new ArrayList<>();
+        listOfStudents.add(new Student(1, "Gowtham", "Gow", "SDE1"));
+        when(studentService.getStudents()).thenReturn(listOfStudents);
+        assertNotNull(studentController.getAllStudents().getBody());
+        assertEquals(listOfStudents, studentController.getAllStudents().getBody());
+        assertEquals(HttpStatus.OK, studentController.getAllStudents().getStatusCode());
+    }
+
+    @Test
+    public void getAllStudents_nullResponse() {
+        doThrow(NullPointerException.class).when(studentService).getStudents();
+        assertEquals(HttpStatus.NOT_FOUND, studentController.getAllStudents().getStatusCode());
+        assertNull(studentController.getAllStudents().getBody());
     }
 }

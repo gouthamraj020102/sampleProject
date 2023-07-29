@@ -22,7 +22,7 @@ public class StudentService {
             return student;
     }
 
-    public List<?> getStudents() {
+    public List<Student> getStudents() {
         List<Student> listOfStudents = this.studentRepository.getStudents();
         if (listOfStudents.isEmpty())
             throw new NullPointerException();

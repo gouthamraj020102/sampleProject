@@ -1,7 +1,8 @@
 package com.sampleProject.springboot.Services;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class StudentServiceTest {
+class StudentServiceTest {
 
     @Mock
     private StudentRepository studentRepository;
@@ -25,14 +26,14 @@ public class StudentServiceTest {
     private StudentService studentService;
 
     @Test
-    public void getOneStudentTest() {
+    void getOneStudentTest() {
         when(studentRepository.getListOfStudents()).thenReturn(listOfStudents());
         assertNotNull(studentService.getStudent(1));
         assertEquals(listOfStudents().get(0), studentService.getStudent(1));
     }
 
     @Test
-    public void getStudentExceptionTest() {
+    void getStudentExceptionTest() {
         when(studentRepository.getListOfStudents()).thenReturn(new ArrayList<>());
         assertThrows(IndexOutOfBoundsException.class, () -> studentService.getStudent(10));
     }
@@ -44,14 +45,29 @@ public class StudentServiceTest {
     }
 
     @Test
-    public void getStudents_happyPath() {
+    void getStudents_happyPath() {
         when(studentRepository.getListOfStudents()).thenReturn(listOfStudents());
         assertNotNull(studentService.getStudents());
     }
 
     @Test
-    public void getStudentsExceptionTest() {
-        when(studentRepository.getListOfStudents()).thenReturn(null);
+    void getStudentsExceptionTest() {
+        when(studentRepository.getListOfStudents()).thenReturn(new ArrayList<>());
         assertThrows(NullPointerException.class, () -> studentService.getStudents());
+    }
+
+    private Student student = new Student(1, "Gowtham", "Gow", "SDE1");
+
+    @Test
+    void addStudent_happyPath() {
+        doNothing().when(studentRepository).addStudent(any());
+        studentService.addStudent(student);
+        verify(studentRepository, times(1)).addStudent(student);
+    }
+
+    @Test
+    void addStudentExceptionTest() {
+        Student student = new Student();
+        assertThrows(IllegalArgumentException.class, () -> studentService.addStudent(student));
     }
 }

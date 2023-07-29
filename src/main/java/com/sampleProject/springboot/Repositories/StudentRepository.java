@@ -14,4 +14,8 @@ public class StudentRepository {
 
     private List<Student> listOfStudents = new ArrayList<>();
 
+    public void addStudent(Student student) {
+        listOfStudents.add(student);
+    }
+
 }

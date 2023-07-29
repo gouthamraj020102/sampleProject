@@ -29,4 +29,11 @@ public class StudentService {
         else
             return listOfStudents;
     }
+
+    public void addStudent(Student student) {
+        if (student.getId() > 0)
+            this.studentRepository.addStudent(student);
+        else
+            throw new IllegalArgumentException("Invalid ID. The ID must be greater than 0.");
+    }
 }

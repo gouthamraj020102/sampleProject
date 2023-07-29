@@ -3,9 +3,7 @@ package com.sampleProject.springboot.Controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.sampleProject.springboot.Entities.Student;
 import com.sampleProject.springboot.Services.StudentService;
@@ -28,11 +26,23 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public ResponseEntity<List<?>> getAllStudents() {
+    public ResponseEntity<List<Student>> getAllStudents() {
         try {
             return ResponseEntity.ok(this.studentService.getStudents());
         } catch (NullPointerException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+    @PostMapping("/student")
+    public ResponseEntity<String> createStudent(@RequestBody Student student) {
+        try {
+            this.studentService.addStudent(student);
+            return ResponseEntity.status(HttpStatus.CREATED).body("Posted successfully");
+        }
+        catch (IllegalArgumentException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid ID");
+        }
+
     }
 }

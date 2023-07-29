@@ -14,6 +14,10 @@ public class StudentRepository {
         return listOfStudents().get(id - 1);
     }
 
+    public List<Student> getStudents() {
+        return listOfStudents();
+    }
+
     public List<Student> listOfStudents() {
         List<Student> listOfStudents = new ArrayList<>();
         listOfStudents.add(new Student(1, "Gowtham Raju", "Goutham", "SDE1"));

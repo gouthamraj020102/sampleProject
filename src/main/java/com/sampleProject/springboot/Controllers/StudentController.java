@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sampleProject.springboot.Entities.Student;
 import com.sampleProject.springboot.Services.StudentService;
 
+import java.util.List;
+
 @RestController
 public class StudentController {
 
@@ -25,4 +27,12 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/students")
+    public ResponseEntity<List<?>> getAllStudents() {
+        try {
+            return ResponseEntity.ok(this.studentService.getStudents());
+        } catch (NullPointerException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 }

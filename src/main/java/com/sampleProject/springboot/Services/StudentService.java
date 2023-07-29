@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import com.sampleProject.springboot.Entities.Student;
 import com.sampleProject.springboot.Repositories.StudentRepository;
 
+import java.util.List;
+
 @Service
 public class StudentService {
 
@@ -20,4 +22,11 @@ public class StudentService {
             return student;
     }
 
+    public List<?> getStudents() {
+        List<Student> listOfStudents = this.studentRepository.getStudents();
+        if (listOfStudents.isEmpty())
+            throw new NullPointerException();
+        else
+            return listOfStudents;
+    }
 }

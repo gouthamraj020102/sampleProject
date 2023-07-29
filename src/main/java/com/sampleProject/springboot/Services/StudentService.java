@@ -15,7 +15,7 @@ public class StudentService {
     private StudentRepository studentRepository;
 
     public Student getStudent(int id) {
-        Student student = this.studentRepository.getStudentById(id);
+        Student student = this.studentRepository.getListOfStudents().get(id-1);
         if(student == null)
             throw new IndexOutOfBoundsException();
         else
@@ -23,7 +23,7 @@ public class StudentService {
     }
 
     public List<Student> getStudents() {
-        List<Student> listOfStudents = this.studentRepository.getStudents();
+        List<Student> listOfStudents = this.studentRepository.getListOfStudents();
         if (listOfStudents.isEmpty())
             throw new NullPointerException();
         else

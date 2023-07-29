@@ -3,27 +3,15 @@ package com.sampleProject.springboot.Repositories;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
 import org.springframework.stereotype.Repository;
 
 import com.sampleProject.springboot.Entities.Student;
 
+@Data
 @Repository
 public class StudentRepository {
 
-    public Student getStudentById(int id) {
-        return listOfStudents().get(id - 1);
-    }
+    private List<Student> listOfStudents = new ArrayList<>();
 
-    public List<Student> getStudents() {
-        return listOfStudents();
-    }
-
-    public List<Student> listOfStudents() {
-        List<Student> listOfStudents = new ArrayList<>();
-        listOfStudents.add(new Student(1, "Gowtham Raju", "Goutham", "SDE1"));
-        listOfStudents.add(new Student(2, "Murali Vegiraju", "Murali", "SDE1"));
-        listOfStudents.add(new Student(3, "Deepak", "Deepu", "SDE1"));
-        listOfStudents.add(new Student(4, "VaraPrasad", "Prasad", "SDE2"));
-        return listOfStudents;
-    }
 }

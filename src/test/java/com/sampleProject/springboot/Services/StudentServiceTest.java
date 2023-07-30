@@ -84,4 +84,17 @@ class StudentServiceTest {
         when(studentRepository.getListOfStudents()).thenReturn(new ArrayList<>());
         assertThrows(StudentNotFoundException.class, () -> studentService.putStudent(listOfStudents().get(0), 1));
     }
+
+    @Test
+    void deleteStudentById_happyPath() throws StudentNotFoundException {
+        when(studentRepository.getListOfStudents()).thenReturn(listOfStudents());
+        studentService.deleteStudentById(1);
+        verify(studentRepository, times(1)).getListOfStudents();
+    }
+
+    @Test
+    void deleteStudentByIdExceptionTest() {
+        when(studentRepository.getListOfStudents()).thenReturn(new ArrayList<>());
+        assertThrows(StudentNotFoundException.class, () -> studentService.deleteStudentById(1));
+    }
 }

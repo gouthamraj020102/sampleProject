@@ -87,4 +87,18 @@ class StudentControllerTest {
         assertNotNull(studentController.updateStudent(student, 1).getBody());
         assertEquals(HttpStatus.NOT_FOUND, studentController.updateStudent(student, 1).getStatusCode());
     }
+
+    @Test
+    void deleteStudent_happyPath() throws StudentNotFoundException {
+        doNothing().when(studentService).deleteStudentById(anyInt());
+        assertNotNull(studentController.deleteStudent(1).getBody());
+        assertEquals(HttpStatus.OK, studentController.deleteStudent(1).getStatusCode());
+    }
+
+    @Test
+    void deleteStudent_ExceptionTest() throws StudentNotFoundException {
+        doThrow(new StudentNotFoundException("Student not found")).when(studentService).deleteStudentById(anyInt());
+        assertNotNull(studentController.deleteStudent(1).getBody());
+        assertEquals(HttpStatus.NOT_FOUND, studentController.deleteStudent(1).getStatusCode());
+    }
 }

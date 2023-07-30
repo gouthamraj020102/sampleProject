@@ -48,4 +48,15 @@ public class StudentService {
         }
         throw new StudentNotFoundException("Student with the specified ID not found for update.");
     }
+
+    public void deleteStudentById(int studentId) throws StudentNotFoundException {
+        List<Student> list = this.studentRepository.getListOfStudents();
+        for (Student student : list) {
+            if (student.getId() == studentId) {
+                list.remove(student);
+                return;
+            }
+        }
+        throw new StudentNotFoundException("Student not found");
+    }
 }

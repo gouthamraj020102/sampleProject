@@ -76,15 +76,15 @@ class StudentControllerTest {
 
     @Test
     void updateStudent_happyPath() throws StudentNotFoundException {
-        doNothing().when(studentService).putStudent(any());
-        assertNotNull(studentController.updateStudent(student).getBody());
-        assertEquals(HttpStatus.OK, studentController.updateStudent(student).getStatusCode());
+        doNothing().when(studentService).putStudent(any(), anyInt());
+        assertNotNull(studentController.updateStudent(student, 1).getBody());
+        assertEquals(HttpStatus.OK, studentController.updateStudent(student, 1).getStatusCode());
     }
 
     @Test
     void updateStudent_ExceptionTest() throws StudentNotFoundException {
-        doThrow(new StudentNotFoundException("Student not found")).when(studentService).putStudent(any());
-        assertNotNull(studentController.updateStudent(student).getBody());
-        assertEquals(HttpStatus.NOT_FOUND, studentController.updateStudent(student).getStatusCode());
+        doThrow(new StudentNotFoundException("Student not found")).when(studentService).putStudent(any(), anyInt());
+        assertNotNull(studentController.updateStudent(student, 1).getBody());
+        assertEquals(HttpStatus.NOT_FOUND, studentController.updateStudent(student, 1).getStatusCode());
     }
 }

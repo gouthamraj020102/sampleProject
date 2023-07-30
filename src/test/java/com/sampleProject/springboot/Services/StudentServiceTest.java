@@ -74,7 +74,7 @@ class StudentServiceTest {
     void putStudent_happyPath() throws StudentNotFoundException {
         Student student = new Student(1, "Gowtham", "Gow", "SDE2");
         when(studentRepository.getListOfStudents()).thenReturn(listOfStudents());
-        studentService.putStudent(student);
+        studentService.putStudent(student, 1);
         verify(studentRepository, times(1)).getListOfStudents();
         assertTrue(studentRepository.getListOfStudents().contains(student));
     }
@@ -82,6 +82,6 @@ class StudentServiceTest {
     @Test
     void putStudentExceptionTest() {
         when(studentRepository.getListOfStudents()).thenReturn(new ArrayList<>());
-        assertThrows(StudentNotFoundException.class, () -> studentService.putStudent(listOfStudents().get(0)));
+        assertThrows(StudentNotFoundException.class, () -> studentService.putStudent(listOfStudents().get(0), 1));
     }
 }

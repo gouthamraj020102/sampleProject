@@ -47,10 +47,10 @@ public class StudentController {
 
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<String> updateStudent(@RequestBody Student student) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateStudent(@RequestBody Student student, @PathVariable("id") int id) {
         try {
-            this.studentService.putStudent(student);
+            this.studentService.putStudent(student, id);
             return ResponseEntity.ok("Successfully updated student");
         }
         catch (StudentNotFoundException ex) {

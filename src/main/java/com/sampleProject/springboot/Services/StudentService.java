@@ -38,10 +38,10 @@ public class StudentService {
             throw new IllegalArgumentException("Invalid ID. The ID must be greater than 0.");
     }
 
-    public void putStudent(Student student) throws StudentNotFoundException {
+    public void putStudent(Student student, int id) throws StudentNotFoundException {
         List<Student> listOfStudents = this.studentRepository.getListOfStudents();
         for (Student updatedStudent : listOfStudents) {
-            if (updatedStudent.getId() == student.getId()) {
+            if (updatedStudent.getId() == id) {
                 listOfStudents.set(listOfStudents.indexOf(updatedStudent), student);
                 return;
             }

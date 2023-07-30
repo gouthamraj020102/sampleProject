@@ -1,5 +1,6 @@
 package com.sampleProject.springboot.Controllers;
 
+import com.sampleProject.springboot.Exception.StudentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,5 +45,16 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid ID");
         }
 
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateStudent(@RequestBody Student student) {
+        try {
+            this.studentService.putStudent(student);
+            return ResponseEntity.ok("Successfully updated student");
+        }
+        catch (StudentNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
     }
 }

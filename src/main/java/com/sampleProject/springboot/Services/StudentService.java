@@ -1,5 +1,6 @@
 package com.sampleProject.springboot.Services;
 
+import com.sampleProject.springboot.Exception.StudentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +36,16 @@ public class StudentService {
             this.studentRepository.addStudent(student);
         else
             throw new IllegalArgumentException("Invalid ID. The ID must be greater than 0.");
+    }
+
+    public void putStudent(Student student) throws StudentNotFoundException {
+        List<Student> listOfStudents = this.studentRepository.getListOfStudents();
+        for (Student updatedStudent : listOfStudents) {
+            if (updatedStudent.getId() == student.getId()) {
+                listOfStudents.set(listOfStudents.indexOf(updatedStudent), student);
+                return;
+            }
+        }
+        throw new StudentNotFoundException("Student with the specified ID not found for update.");
     }
 }

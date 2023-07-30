@@ -1,6 +1,7 @@
 package com.sampleProject.springboot.Controllers;
 
 import com.sampleProject.springboot.Entities.Student;
+import com.sampleProject.springboot.Exception.StudentNotFoundException;
 import com.sampleProject.springboot.Services.StudentService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -71,5 +72,19 @@ class StudentControllerTest {
         doThrow(IllegalArgumentException.class).when(studentService).addStudent(any(Student.class));
         assertNotNull(studentController.createStudent(student).getBody());
         assertEquals(HttpStatus.BAD_REQUEST, studentController.createStudent(student).getStatusCode());
+    }
+
+    @Test
+    void updateStudent_happyPath() throws StudentNotFoundException {
+        doNothing().when(studentService).putStudent(any());
+        assertNotNull(studentController.updateStudent(student).getBody());
+        assertEquals(HttpStatus.OK, studentController.updateStudent(student).getStatusCode());
+    }
+
+    @Test
+    void updateStudent_ExceptionTest() throws StudentNotFoundException {
+        doThrow(new StudentNotFoundException("Student not found")).when(studentService).putStudent(any());
+        assertNotNull(studentController.updateStudent(student).getBody());
+        assertEquals(HttpStatus.NOT_FOUND, studentController.updateStudent(student).getStatusCode());
     }
 }

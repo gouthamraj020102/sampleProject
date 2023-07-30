@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import com.sampleProject.springboot.Exception.StudentNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -56,18 +57,31 @@ class StudentServiceTest {
         assertThrows(NullPointerException.class, () -> studentService.getStudents());
     }
 
-    private Student student = new Student(1, "Gowtham", "Gow", "SDE1");
-
     @Test
     void addStudent_happyPath() {
         doNothing().when(studentRepository).addStudent(any());
-        studentService.addStudent(student);
-        verify(studentRepository, times(1)).addStudent(student);
+        studentService.addStudent(listOfStudents().get(0));
+        verify(studentRepository, times(1)).addStudent(listOfStudents().get(0));
     }
 
     @Test
     void addStudentExceptionTest() {
         Student student = new Student();
         assertThrows(IllegalArgumentException.class, () -> studentService.addStudent(student));
+    }
+
+    @Test
+    void putStudent_happyPath() throws StudentNotFoundException {
+        Student student = new Student(1, "Gowtham", "Gow", "SDE2");
+        when(studentRepository.getListOfStudents()).thenReturn(listOfStudents());
+        studentService.putStudent(student);
+        verify(studentRepository, times(1)).getListOfStudents();
+        assertTrue(studentRepository.getListOfStudents().contains(student));
+    }
+
+    @Test
+    void putStudentExceptionTest() {
+        when(studentRepository.getListOfStudents()).thenReturn(new ArrayList<>());
+        assertThrows(StudentNotFoundException.class, () -> studentService.putStudent(listOfStudents().get(0)));
     }
 }
